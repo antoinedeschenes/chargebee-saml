@@ -1,37 +1,44 @@
-## Welcome to GitHub Pages
+## Setup Chargebee SSO with Azure AD
 
-You can use the [editor on GitHub](https://github.com/antoinedeschenes/chargebee-saml/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+1. Login to the [Azure Portal](https://portal.azure.com/) 
+2. Reach the [Enterprise applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/) page
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![Enterprise applications](1-azure-apps.png)
 
-### Markdown
+3. Create a "New application"
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![New application](2-azure-add-app.png)
 
-```markdown
-Syntax highlighted code block
+4. Select "Non-gallery application", name and add your application. 
 
-# Header 1
-## Header 2
-### Header 3
+![Add application](3-azure-name-app.png)
 
-- Bulleted
-- List
+5. Go in the "Single sign-on" settings and click "SAML"
 
-1. Numbered
-2. List
+![Use SAML](4-azure-use-saml.png)
 
-**Bold** and _Italic_ and `Code` text
+6. Set the "Basic SAML Configuration":
+  - Identifier (Entity ID) is your Chargebee subdomain (`https://<domain>.chargebee.com/`)
+  - Set Reply URL (Assertion Consumer Service URL) to the following: `https://app.chargebee.com/saml/<domain>/acs`
 
-[Link](url) and ![Image](src)
-```
+![Configure SAML (Azure)](5-azure-configure-saml.png)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+7. Get the "Login URL" and download the "Certificate"
 
-### Jekyll Themes
+![Get SAML config for Chargebee](6-azure-get-attributes.png)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/antoinedeschenes/chargebee-saml/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+8. Connect to your [Chargebee](https://app.chargebee.com) account 
+9. Reach the SAML settings
 
-### Support or Contact
+![Use SAML (Chargebee)](7-chargebee-use-saml.png)
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+10. Fill the SAML configuration
+  - Paste "Login URL" from the Azure application page.
+  - Paste contents from downloaded Certificate (Base64) in the Chargebee "SAML Certificate" text box
+  - Click "Confirm"
+
+![Configure SAML (Chargebee)](8-chargebee-configure-saml.png)
+
+11. In Azure, click "Users and groups" to allow users to login to the Chargebee application
+
+![Assign users (Azure)](9-azure-assign-users.png)
